@@ -37,7 +37,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-zinc-900 py-20">
+    <section className="relative overflow-hidden bg-black py-20">
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,7 +46,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="mx-auto max-w-2xl text-center"
         >
-          <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl">Get in Touch</h2>
+          <h2 className="mb-4 text-3xl font-bold tracking-tighter text-white sm:text-4xl">Get in Touch</h2>
           <p className="mb-8 text-gray-400">
             Interested in collaborating or commissioning a piece? Let's create something amazing together.
           </p>
@@ -65,9 +65,13 @@ export default function Contact() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-white">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input
+                        placeholder="Your name"
+                        {...field}
+                        className="bg-black text-white border border-gray-500 focus:border-gray-300 focus:ring-gray-300"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -78,9 +82,13 @@ export default function Contact() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="your@email.com" {...field} />
+                      <Input
+                        placeholder="your@email.com"
+                        {...field}
+                        className="bg-black text-white border border-gray-500 focus:border-gray-300 focus:ring-gray-300"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -91,15 +99,22 @@ export default function Contact() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message</FormLabel>
+                    <FormLabel className="text-white">Message</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Tell me about your project..." className="min-h-[120px]" {...field} />
+                      <Textarea
+                        placeholder="Tell me about your project..."
+                        {...field}
+                        className="min-h-[120px] bg-black text-white border border-gray-500 focus:border-gray-300 focus:ring-gray-300"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full bg-white text-black border border-gray-500 hover:bg-gray-200"
+              >
                 Send Message
               </Button>
             </form>
@@ -116,4 +131,3 @@ export default function Contact() {
     </section>
   )
 }
-
