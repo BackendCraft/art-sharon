@@ -35,8 +35,8 @@ export default function Navbar() {
         </h1>
         <ul className="flex space-x-8">
           {[
-            { name: "About", id: "about" },
             { name: "Art", id: "featuredworks" },
+            { name: "About", id: "about" },
             { name: "Contact", id: "contact" },
           ].map((item, index) => (
             <motion.li key={index} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
