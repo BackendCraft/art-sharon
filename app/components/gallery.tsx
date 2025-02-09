@@ -10,22 +10,22 @@ export default function Gallery() {
 
   const images = [
     {
-      src: "/placeholder.svg?height=600&width=400",
+      src: "/imagen1.png?height=600&width=400",
       alt: "Art piece 1",
       title: "Ethereal Dreams",
     },
     {
-      src: "/placeholder.svg?height=600&width=400",
+      src: "/imagen2.png?height=600&width=400",
       alt: "Art piece 2",
       title: "Urban Symphony",
     },
     {
-      src: "/placeholder.svg?height=600&width=400",
+      src: "/imagen3.png?height=600&width=400",
       alt: "Art piece 3",
       title: "Digital Nostalgia",
     },
     {
-      src: "/placeholder.svg?height=600&width=400",
+      src: "/imagen4.png?height=600&width=400",
       alt: "Art piece 4",
       title: "Abstract Reality",
     },
