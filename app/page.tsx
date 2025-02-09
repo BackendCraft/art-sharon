@@ -9,7 +9,7 @@ import Footer from "./components/footer";
 export default function Page() {
   return (
     <main className="min-h-screen bg-black text-white">
-      <Navbar />   {/* 🔹 Agregamos el menú de navegación */}
+      <Navbar />
       <Hero />
       <Gallery />
       <About />
