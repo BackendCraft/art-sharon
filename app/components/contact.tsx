@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useState } from "react";
+import emailjs from "emailjs-com";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,39 +18,28 @@ const formSchema = z.object({
 });
 
 export default function Contact() {
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  // 📌 Initialize the form using React Hook Form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
 
-  // 📌 Function to send the message
+  // 📌 Function to send email using EmailJS
   async function sendMessage(values: z.infer<typeof formSchema>) {
-    setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
-
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+      await emailjs.send(
+        "service_4p77coq",  // ✅ Service ID correcto
+        "template_ewoqfmi", // ✅ Template ID correcto
+        {
+          from_name: values.name,
+          from_email: values.email,
+          message: values.message,
+        },
+        "lgPOKYK574Mnh6jWq" // ✅ Public Key correcto
+      );
 
-      if (!response.ok) {
-        throw new Error("Error sending message.");
-      }
-
-      setSuccessMessage("✅ Message sent successfully!");
-      form.reset(); // 🔹 Clear form after submission
+      alert("✅ Message sent successfully!");
     } catch (error) {
-      setErrorMessage("❌ Error sending message. Please try again later.");
-    } finally {
-      setLoading(false);
+      alert("❌ Error sending message. Please try again later.");
     }
   }
 
@@ -73,10 +62,6 @@ export default function Contact() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {/* 📌 Success/Error messages */}
-              {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
-              {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
-
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(sendMessage)} className="space-y-4">
                   {/* 📌 Name Field */}
@@ -112,15 +97,10 @@ export default function Contact() {
                     </FormItem>
                   )} />
 
-                  {/* 📌 Buttons */}
-                  <div className="flex justify-between space-x-4">
-                    <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={loading}>
-                      {loading ? "Sending..." : "Send Message"}
-                    </Button>
-                    <Button type="button" className="w-full bg-red-500 text-white hover:bg-red-600" onClick={() => form.reset()}>
-                      Clear Form
-                    </Button>
-                  </div>
+                  {/* 📌 Submit Button */}
+                  <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200">
+                    Send Message
+                  </Button>
                 </form>
               </Form>
             </CardContent>
@@ -130,3 +110,4 @@ export default function Contact() {
     </section>
   );
 }
+  
