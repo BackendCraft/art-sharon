@@ -27,15 +27,6 @@ yarn.lock
 .vercel
 .netlify
 
-# Ignorar imágenes subidas o archivos temporales
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.svg
-*.mp4
-*.webp
-
 # Ignorar archivos específicos del sistema operativo
 Thumbs.db
 desktop.ini
