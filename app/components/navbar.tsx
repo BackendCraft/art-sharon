@@ -1,58 +1,148 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import Link from "next/link"
 
-export default function Navbar() {
-  const [showNav, setShowNav] = useState(false);
+export default function FloatingMenu() {
+  const [isVisible, setIsVisible] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowNav(window.scrollY > window.innerHeight * 0.6);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Función para hacer scroll suave a la sección seleccionada
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      const heroHeight = window.innerHeight
+      setIsVisible(window.scrollY > heroHeight)
     }
-  };
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  if (!isVisible) return null
 
   return (
-    <motion.nav
-      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 ${
-        showNav ? "translate-y-0" : "-translate-y-full"
-      }`}
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 p-4"
     >
-      <div className="container mx-auto flex justify-between items-center py-3 px-4 md:py-6 md:px-6 bg-transparent">
-        {/* Nombre del artista con tamaño más pequeño en móviles */}
-        <h1 className="text-white font-bold tracking-widest uppercase text-xs sm:text-sm md:text-2xl">
-          Sharon Toribio
-        </h1>
-
-        {/* Menú de navegación reducido en móviles */}
-        <ul className="flex space-x-3 sm:space-x-5 md:space-x-8">
-          {[
-            { name: "Art", id: "featuredworks" },
-            { name: "About", id: "about" }, // Apunta a la sección de Featured Works
-            { name: "Contact", id: "contact" },
-          ].map((item, index) => (
-            <motion.li key={index} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <button
-                onClick={() => scrollToSection(item.id)}
-                className="text-white text-xs sm:text-sm md:text-lg font-medium tracking-widest uppercase transition duration-300 hover:text-gray-400"
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="text-white text-xl font-bold hover:text-gray-300 transition-colors uppercase">
+          SHARON TORIBIO
+        </Link>
+        <nav className="hidden md:block">
+          <ul className="flex space-x-6">
+            <li>
+              <Link
+                href="#art"
+                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
               >
-                {item.name}
-              </button>
-            </motion.li>
-          ))}
-        </ul>
+                ART
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#about"
+                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
+              >
+                ABOUT
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#portfolio"
+                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
+              >
+                PORTFOLIO
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#get-in-touch"
+                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
+              >
+                CONTACT
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <button
+          className="md:hidden text-white"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          )}
+        </button>
       </div>
-    </motion.nav>
-  );
+      {isMobileMenuOpen && (
+        <motion.nav
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden mt-4"
+        >
+          <ul className="flex flex-col space-y-2">
+            <li>
+              <Link
+                href="#art"
+                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                ART
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#about"
+                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                ABOUT
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#portfolio"
+                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                PORTFOLIO
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#get-in-touch"
+                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                CONTACT
+              </Link>
+            </li>
+          </ul>
+        </motion.nav>
+      )}
+    </motion.div>
+  )
 }
+
