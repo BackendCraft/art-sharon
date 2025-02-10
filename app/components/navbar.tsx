@@ -38,8 +38,8 @@ export default function Navbar() {
         {/* Menú de navegación reducido en móviles */}
         <ul className="flex space-x-3 sm:space-x-5 md:space-x-8">
           {[
-            { name: "About", id: "about" },
-            { name: "Art", id: "featuredworks" }, // Apunta a la sección de Featured Works
+            { name: "Art", id: "featuredworks" },
+            { name: "About", id: "about" }, // Apunta a la sección de Featured Works
             { name: "Contact", id: "contact" },
           ].map((item, index) => (
             <motion.li key={index} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
