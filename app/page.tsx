@@ -1,4 +1,4 @@
-import Navbar from "./components/navbar";  // 🔹 Importamos el menú
+import Navbar from "./components/navbar";
 import Hero from "./components/hero";
 import Gallery from "./components/gallery";
 import About from "./components/about";
@@ -10,11 +10,11 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-black text-white">
       <Navbar />
-      <Hero />
-      <Gallery />
-      <About />
-      <Portfolio />
-      <Contact />
+      <section id="hero"><Hero /></section>
+      <section id="art"><Gallery /></section>
+      <section id="about"><About /></section>
+      <section id="portfolio"><Portfolio /></section>
+      <section id="contact"><Contact /></section>
       <Footer />
     </main>
   );

@@ -1,70 +1,54 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
-export default function FloatingMenu() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+export default function Navbar() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const heroHeight = window.innerHeight
-      setIsVisible(window.scrollY > heroHeight)
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight * 0.9; // Le damos un margen para que no desaparezca en "ART"
+      setIsVisible(scrollY > heroHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  if (!isVisible) return null
+    setIsMobileMenuOpen(false); // Cierra el menú en móvil al hacer clic
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -50 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 p-4"
+      className="fixed top-0 left-0 right-0 z-50 p-4 bg-transparent"
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-white text-xl font-bold hover:text-gray-300 transition-colors uppercase">
+        <button onClick={() => handleScroll("hero")} className="text-white text-xl font-bold hover:text-gray-300 transition-colors uppercase">
           SHARON TORIBIO
-        </Link>
+        </button>
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
-            <li>
-              <Link
-                href="#art"
-                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
-              >
-                ART
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#about"
-                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
-              >
-                ABOUT
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#portfolio"
-                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
-              >
-                PORTFOLIO
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#get-in-touch"
-                className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
-              >
-                CONTACT
-              </Link>
-            </li>
+            {["art", "about", "portfolio", "contact"].map((section) => (
+              <li key={section}>
+                <button
+                  onClick={() => handleScroll(section)}
+                  className="text-white hover:text-gray-300 transition-colors text-xl font-bold uppercase"
+                >
+                  {section.toUpperCase()}
+                </button>
+              </li>
+            ))}
           </ul>
         </nav>
         <button
@@ -73,76 +57,32 @@ export default function FloatingMenu() {
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
           )}
         </button>
       </div>
       {isMobileMenuOpen && (
-        <motion.nav
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden mt-4"
-        >
+        <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="md:hidden mt-4">
           <ul className="flex flex-col space-y-2">
-            <li>
-              <Link
-                href="#art"
-                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                ART
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#about"
-                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                ABOUT
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#portfolio"
-                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                PORTFOLIO
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#get-in-touch"
-                className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                CONTACT
-              </Link>
-            </li>
+            {["art", "about", "portfolio", "contact"].map((section) => (
+              <li key={section}>
+                <button
+                  onClick={() => handleScroll(section)}
+                  className="block text-white hover:text-gray-300 transition-colors py-2 text-xl font-bold uppercase"
+                >
+                  {section.toUpperCase()}
+                </button>
+              </li>
+            ))}
           </ul>
         </motion.nav>
       )}
     </motion.div>
-  )
+  );
 }
-
