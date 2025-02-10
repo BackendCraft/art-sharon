@@ -33,7 +33,7 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -50 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 p-4 bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 p-4 bg-transparent ${isVisible ? "" : "pointer-events-none"}`} // Hace que no interfiera cuando está oculto
     >
       <div className="container mx-auto flex justify-between items-center">
         <button onClick={() => handleScroll("hero")} className="text-white text-xl font-bold hover:text-gray-300 transition-colors uppercase">
