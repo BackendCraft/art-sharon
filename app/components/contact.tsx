@@ -4,13 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import emailjs from "emailjs-com";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckIcon } from "@radix-ui/react-icons"; // Ícono minimalista de verificación
 
-// 📌 Validation schema using Zod
+// 📌 Validación con Zod
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -23,23 +25,25 @@ export default function Contact() {
     defaultValues: { name: "", email: "", message: "" },
   });
 
-  // 📌 Function to send email using EmailJS
+  const [sent, setSent] = useState(false); // Estado para manejar el icono del botón
+
+  // 📌 Función para enviar el mensaje con EmailJS
   async function sendMessage(values: z.infer<typeof formSchema>) {
     try {
       await emailjs.send(
-        "service_4p77coq",  // ✅ Service ID correcto
-        "template_ewoqfmi", // ✅ Template ID correcto
+        "service_4p77coq",  // ✅ Service ID
+        "template_ewoqfmi", // ✅ Template ID
         {
           from_name: values.name,
           from_email: values.email,
-          message: values.message,
+          message: `Email: ${values.email}\n\n${values.message}`, // 📌 Email incluido en el cuerpo
         },
-        "lgPOKYK574Mnh6jWq" // ✅ Public Key correcto
+        "lgPOKYK574Mnh6jWq" // ✅ Public Key
       );
 
-      alert("✅ Message sent successfully!");
+      setSent(true); // ✅ Cambia el botón a un ícono de verificación
     } catch (error) {
-      alert("❌ Error sending message. Please try again later.");
+      console.error("Error sending message:", error);
     }
   }
 
@@ -64,7 +68,7 @@ export default function Contact() {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(sendMessage)} className="space-y-4">
-                  {/* 📌 Name Field */}
+                  {/* 📌 Campo de Nombre */}
                   <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-zinc-400">Name</FormLabel>
@@ -75,7 +79,7 @@ export default function Contact() {
                     </FormItem>
                   )} />
 
-                  {/* 📌 Email Field */}
+                  {/* 📌 Campo de Email */}
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-zinc-400">Email</FormLabel>
@@ -86,7 +90,7 @@ export default function Contact() {
                     </FormItem>
                   )} />
 
-                  {/* 📌 Message Field */}
+                  {/* 📌 Campo de Mensaje */}
                   <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-zinc-400">Message</FormLabel>
@@ -97,9 +101,9 @@ export default function Contact() {
                     </FormItem>
                   )} />
 
-                  {/* 📌 Submit Button */}
+                  {/* 📌 Botón de Envío con icono dinámico */}
                   <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200">
-                    Send Message
+                    {sent ? <CheckIcon className="w-5 h-5" /> : "Send Message"}
                   </Button>
                 </form>
               </Form>
@@ -110,4 +114,3 @@ export default function Contact() {
     </section>
   );
 }
-  
