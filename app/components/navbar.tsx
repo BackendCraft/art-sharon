@@ -4,18 +4,20 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight * 0.9; // Le damos un margen para que no desaparezca en "ART"
-      setIsVisible(scrollY > heroHeight);
+    const updateNavbarVisibility = () => {
+      const heroHeight = window.innerHeight * 0.9; // Ajuste para que no desaparezca en "ART"
+      setIsVisible(window.scrollY > heroHeight);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Verifica la posición inicial del scroll al cargar la página
+    updateNavbarVisibility();
+
+    window.addEventListener("scroll", updateNavbarVisibility);
+    return () => window.removeEventListener("scroll", updateNavbarVisibility);
   }, []);
 
   const handleScroll = (id: string) => {
@@ -39,7 +41,7 @@ export default function Navbar() {
         </button>
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
-            {["art", "about", "portfolio", "contact"].map((section) => (
+            {["about", "art", "portfolio", "contact"].map((section) => (
               <li key={section}>
                 <button
                   onClick={() => handleScroll(section)}
@@ -70,7 +72,7 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="md:hidden mt-4">
           <ul className="flex flex-col space-y-2">
-            {["art", "about", "portfolio", "contact"].map((section) => (
+            {["about", "art", "portfolio", "contact"].map((section) => (
               <li key={section}>
                 <button
                   onClick={() => handleScroll(section)}
