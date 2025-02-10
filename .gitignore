@@ -1,2 +1,41 @@
-.env.local 
-node_modules
+# Ignorar dependencias y build de Next.js
+node_modules/
+.next/
+out/
+.vscode/
+dist/
+
+# Ignorar archivos de configuración local
+.env*
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.idea/
+*.swp
+
+# Ignorar archivos de caché y logs
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.cache/
+*.log
+*.gz
+
+# Ignorar archivos de configuración de Vercel y otras plataformas de despliegue
+.vercel
+.netlify
+
+# Ignorar imágenes subidas o archivos temporales
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.mp4
+*.webp
+
+# Ignorar archivos específicos del sistema operativo
+Thumbs.db
+desktop.ini
